@@ -4,7 +4,6 @@ import { Observable, throwError } from "rxjs";
 import { map, catchError, flatMap } from "rxjs/operators";
 
 import { Category } from "./category-model";
-import { element } from 'protractor';
 
 
 @Injectable({
@@ -32,6 +31,30 @@ export class CategoryService {
     )
   }
 
+  cretae(category: Category) : Observable<Category> {
+    return this.http.post(this.apiPath, category).pipe(
+      catchError(this.handleError),
+      map(this.jsonDataToCategory)     
+    )
+  }
+
+  update(category: Category) : Observable<Category> {
+    const url = `${this.apiPath}/${category.id}`;
+
+    return this.http.put(url, category).pipe(
+      catchError(this.handleError),
+      map(() => category)     
+    )
+  }
+
+  delete(id: number) : Observable<any> {
+    const url = `${this.apiPath}/${id}`;
+
+    return  this.http.delete(url).pipe(
+      catchError(this.handleError),
+      map(() => null)    
+    )
+  }
 
   //Privates Methods
   private jsonDataToCategories(jasonData: any[]): Category[] {
