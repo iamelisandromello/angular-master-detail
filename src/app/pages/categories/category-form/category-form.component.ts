@@ -3,7 +3,7 @@ import { Component, OnInit, AfterContentChecked }           from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators }  from "@angular/forms";
 import { ActivatedRoute, Router }                           from "@angular/router";
 //Importar Modulos da Aplicação
-import { Category }                                         from "../shared/category-model";
+import { Category }                                         from "../shared/category.model";
 import { CategoryService }                                  from "../shared/category.service";
 //Importar Modulos de bibliotecas
 import { switchMap }                                        from "rxjs/operators";
