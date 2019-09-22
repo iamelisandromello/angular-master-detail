@@ -3,13 +3,13 @@ import { Component, OnInit, AfterContentChecked }           from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators }  from "@angular/forms";
 import { ActivatedRoute, Router }                           from "@angular/router";
 //Importar Modulos da Aplicação
-import { Entry }                                         from "../shared/entry.model";
-import { EntryService }                                  from "../shared/entry.service";
+import { Entry }                                            from "../shared/entry.model";
+import { EntryService }                                     from "../shared/entry.service";
+import { Category }                                         from '../../categories/shared/category.model';
+import { CategoryService }                                  from '../../categories/shared/category.service';
 //Importar Modulos de bibliotecas
-import { switchMap }                                        from "rxjs/operators";
-import { toBase64String } from '@angular/compiler/src/output/source_map';
-
-import toastr from "toastr";
+import { switchMap }                                        from "rxjs/operators"
+import toastr                                               from "toastr";
 
 @Component({
   selector    : 'app-entry-form',
@@ -18,24 +18,50 @@ import toastr from "toastr";
 })
 export class EntryFormComponent implements OnInit, AfterContentChecked {
 
-  currentAction       : String;
-  entryForm        : FormGroup;
-  pageTitle           : String;
-  serverErrorMessage : String[]  = null;
-  submittingForm      : boolean   = false;
-  entry            : Entry  = new Entry();
+  currentAction        : String;
+  entryForm            : FormGroup;
+  pageTitle            : String;
+  serverErrorMessage   : String[]  = null;
+  submittingForm       : boolean   = false;
+  entry                : Entry  = new Entry();
+  categories           : Array<Category>;
+  
+  imaskConfig = {
+    mask: Number,
+    scale: 2,
+    thousandsSeparator: '',
+    padFractionalZeros: true,
+    normalizeZeros: true,
+    radix: ','
+  };
+
+  ptBR = {
+    firstDayOfWeek: 0,
+    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+    dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
+    monthNames: [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
+      'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ],
+    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+    today: 'Hoje',
+    clear: 'Limpar'
+  }
 
   constructor( 
-    private entryService: EntryService,
-    private route: ActivatedRoute,
-    private router: Router, 
-    private formBuilder: FormBuilder
+    private entryService    : EntryService,
+    private route           : ActivatedRoute,
+    private router          : Router, 
+    private formBuilder     : FormBuilder,
+    private categoryService : CategoryService 
   ) { }
 
   ngOnInit() {
     this.setCurrentAction();
     this.builderEntryForm();    
     this.loadEntry();
+    this.loadCategories();
   }
 
   ngAfterContentChecked() {
@@ -51,6 +77,17 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     else {
       this.updateEntry();
     }
+  }
+
+  get typeOptions(): Array<any> {
+    return Object.entries(Entry.types).map(
+      ([value, text]) => {
+        return {
+          text: text,
+          value: value
+        }
+      }
+    )
   }
 
   //Privates Methods
@@ -89,6 +126,12 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
         (error) => alert('Ocorreu um erro no servidor, tente mais tarde')
       )
     }  
+  }
+
+  private loadCategories () {
+    this.categoryService.getAll().subscribe(
+      categories => this.categories = categories
+    );
   }
 
   private setPageTitle(){
