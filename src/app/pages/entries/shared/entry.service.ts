@@ -4,6 +4,7 @@ import { Observable, throwError } from "rxjs";
 import { map, catchError, flatMap } from "rxjs/operators";
 
 import { Entry } from "./entry.model";
+import { element } from 'protractor';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class EntryService {
   getAll() : Observable<Entry[]> {
     return this.http.get(this.apiPath).pipe(
       catchError(this.handleError),
-      map(this.jsonDataToCategories)
+      map(this.jsonDataToEntries)
     )
   }
 
@@ -57,14 +58,19 @@ export class EntryService {
   }
 
   //Privates Methods
-  private jsonDataToCategories(jasonData: any[]): Entry[] {
-    const  entries : Entry[] = [];
-    jasonData.forEach(element => entries.push(element as Entry));
+  private jsonDataToEntries(jsonData: any[]): Entry[] {
+    const entries: Entry[] = [];
+
+    jsonData.forEach(element => {
+      const entry = Object.assign(new Entry(), element);
+      entries.push(entry);
+    });
+
     return entries;
   }
 
   private jsonDataToEntry(jasonData: any): Entry {
-    return jasonData as Entry;
+    return Object.assign(new Entry(), jasonData);;
   }
 
   private handleError(error: any): Observable<any> {

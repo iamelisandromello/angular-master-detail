@@ -18,4 +18,10 @@ export class Entry {
         expense: 'Despesa',
         renevue: 'Receita'
     }
+
+    get paidText(): string {
+        return this.paid ? 'Pago' : 'Pedente';
+      }
+
+
 }
