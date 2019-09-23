@@ -21,7 +21,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   currentAction       : String;
   categoryForm        : FormGroup;
   pageTitle           : String;
-  serverErrorMessage : String[]  = null;
+  serverErrorMessage  : String[]  = null;
   submittingForm      : boolean   = false;
   category            : Category  = new Category();
 
