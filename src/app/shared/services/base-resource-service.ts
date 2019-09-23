@@ -28,7 +28,7 @@ export abstract class  BaseResourceService<T extends BaseResourceModel>  {
       )
    }
    
-   cretae(resource: T) : Observable<T> {
+   create(resource: T) : Observable<T> {
       return this.http.post(this.apiPath, resource).pipe(
          catchError(this.handleError),
          map(this.jsonDataToResource)     
