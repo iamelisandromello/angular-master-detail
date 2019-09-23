@@ -15,19 +15,11 @@ export class EntryListComponent implements OnInit {
 
   ngOnInit() {
     this.entryService.getAll().subscribe(
-<<<<<<< HEAD
       entries => this.entries = entries.sort((a,b) => b.id - a.id),
       error => alert('Erro ao carregar a lista')
     )
   }
-  
-=======
-      entries => this.entries = entries,
-      error => alert('Erro ao carregar a lista')
-    )
-  }
 
->>>>>>> adding-entries-module
   deleteEntry(entry) {
     const mustDelete = confirm('Deseja realmente excluir este item?');  
     if(mustDelete) {

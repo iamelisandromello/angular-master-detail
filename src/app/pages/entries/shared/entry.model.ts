@@ -16,11 +16,7 @@ export class Entry {
 
     static types = {
         expense: 'Despesa',
-<<<<<<< HEAD
-        revenue: 'Receita'
-=======
         renevue: 'Receita'
->>>>>>> adding-entries-module
     }
 
     get paidText(): string {
