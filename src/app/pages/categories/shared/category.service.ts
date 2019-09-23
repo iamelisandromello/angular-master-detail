@@ -1,75 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { map, catchError, flatMap } from "rxjs/operators";
+import { Injectable, Injector } from '@angular/core';
+import { Category }   from "./category.model";
 
-import { Category } from "./category.model";
-
+import { BaseResourceService } from "../../../shared/services/base-resource-service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
 
-  private apiPath: string = "api/categories";
+export class CategoryService extends BaseResourceService<Category> {
 
-  constructor(private http: HttpClient) { }
-
-  getAll() : Observable<Category[]> {
-    return this.http.get(this.apiPath).pipe(
-      catchError(this.handleError),
-      map(this.jsonDataToCategories)
-    )
-  }
-
-  getById(id: number) : Observable<Category> {
-    const url = `${this.apiPath}/${id}`;
-
-    return this.http.get(url).pipe(
-      catchError(this.handleError),
-      map(this.jsonDataToCategory)
-    )
-  }
-
-  cretae(category: Category) : Observable<Category> {
-    return this.http.post(this.apiPath, category).pipe(
-      catchError(this.handleError),
-      map(this.jsonDataToCategory)     
-    )
-  }
-
-  update(category: Category) : Observable<Category> {
-    const url = `${this.apiPath}/${category.id}`;
-
-    return this.http.put(url, category).pipe(
-      catchError(this.handleError),
-      map(() => category)     
-    )
-  }
-
-  delete(id: number) : Observable<any> {
-    const url = `${this.apiPath}/${id}`;
-
-    return  this.http.delete(url).pipe(
-      catchError(this.handleError),
-      map(() => null)    
-    )
-  }
-
-  //Privates Methods
-  private jsonDataToCategories(jasonData: any[]): Category[] {
-    const  categories : Category[] = [];
-    jasonData.forEach(element => categories.push(element as Category));
-    return categories;
-  }
-
-  private jsonDataToCategory(jasonData: any): Category {
-    return jasonData as Category;
-  }
-
-  private handleError(error: any): Observable<any> {
-    console.log("Erro na Requisição => ", error);
-    return throwError(error);
+  constructor(protected injector: Injector) { 
+    super("api/categories", injector);
   }
 
 }
