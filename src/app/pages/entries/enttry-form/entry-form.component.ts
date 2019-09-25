@@ -1,13 +1,13 @@
 //Importar Modulos do Angular
-import { Component, Injector, OnInit}           from '@angular/core';
+import { Component, Injector, OnInit}   from '@angular/core';
 import { Validators }                   from "@angular/forms";
 
-import { BaseResourceFormComponent }    from "../../../shared/components/base-resource-form/base-resource-form-component";
 //Importar Modulos da Aplicação
-import { Entry }                                            from "../shared/entry.model";
-import { EntryService }                                     from "../shared/entry.service";
-import { Category }                                         from '../../categories/shared/category.model';
-import { CategoryService }                                  from '../../categories/shared/category.service';
+import { BaseResourceFormComponent }    from "../../../shared/components/base-resource-form/base-resource-form-component";
+import { Entry }                        from "../shared/entry.model";
+import { EntryService }                 from "../shared/entry.service";
+import { Category }                     from '../../categories/shared/category.model';
+import { CategoryService }              from '../../categories/shared/category.service';
 
 @Component({
   selector    : 'app-entry-form',
