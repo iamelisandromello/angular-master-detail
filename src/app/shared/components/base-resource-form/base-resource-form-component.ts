@@ -2,7 +2,7 @@
 import { OnInit, AfterContentChecked, Injector }    from '@angular/core';
 import { FormBuilder, FormGroup, Validators }       from "@angular/forms";
 import { ActivatedRoute, Router }                   from "@angular/router";
-
+//Importar Modulos da Aplicação
 import { BaseResourceModel }                        from "../../models/base-resource-model";
 import { BaseResourceService }                      from "../../services/base-resource-service";
 
@@ -53,7 +53,7 @@ export abstract class BaseResourceFormComponent <T extends BaseResourceModel> im
       }
    }
 
-  //Protecdes Methods
+  //Protected Methods
    protected setCurrentAction(){
       if (this.route.snapshot.url[0].path == "new") {
          this.currentAction = 'new';
@@ -111,14 +111,16 @@ export abstract class BaseResourceFormComponent <T extends BaseResourceModel> im
     )
   }
 
-  protected actionsForSuccess(resource: T ) {
-    toastr.success("Solicitação processada com sucesso!!");
-    const baseComponentPath : String = this.route.snapshot.parent.url[0].path;
+  protected actionsForSuccess(resource: T){
+   toastr.success("Solicitação processada com sucesso!");
 
-    this.router.navigateByUrl("baseComponentPath", {skipLocationChange: true}).then(
-      () => this.router.navigate(["baseComponentPath", resource.id, "edit"])
-    )
-  }
+   const baseComponentPath: string = this.route.snapshot.parent.url[0].path;
+
+   // redirect/reload component page
+   this.router.navigateByUrl(baseComponentPath, {skipLocationChange: true}).then(
+     () => this.router.navigate([baseComponentPath, resource.id, "edit"])
+   )
+ }
 
   protected actionForError(error) {
     toastr.error("Ocorreu um erro ao processar a sua solicitação!!");
