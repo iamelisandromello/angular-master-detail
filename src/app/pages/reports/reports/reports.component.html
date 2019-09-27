@@ -16,7 +16,7 @@
    <div class="form-row">
       <div class="form-group col-md-7">
          <label for="month">Mês</label>
-         <select name="month" id="month" class="form-control">
+         <select #month name="month" id="month" class="form-control">
             <option value=""> Selecione o Mês</option>
             <option value="1">Janeiro</option>
             <option value="2">Fevereiro</option>
@@ -46,7 +46,7 @@
    </div>
    <div class="form-row">
       <div class="col-md text-right">
-         <button type="button" (click) = "generateReports()" class="btn btn-primary">
+         <button type="button" (click)="generateReports()" class="btn btn-primary">
             Gerar Relatórios
          </button>
       </div>
@@ -59,7 +59,7 @@
          TOTAL DE RECEITAS
          <div class="card-body">
             <h3 class="card-title">
-               1500
+               {{revenueTotal}}
             </h3>
          </div>
       </div>
@@ -70,7 +70,7 @@
          TOTAL DE DESPESAS
          <div class="card-body">
             <h3 class="card-title">
-               500
+               {{expenseTotal}}
             </h3>
          </div>
       </div>
@@ -81,7 +81,7 @@
          SALDO
          <div class="card-body">
             <h3 class="card-title">
-               1000
+               {{balance}}
             </h3>
          </div>
       </div>
@@ -91,11 +91,11 @@
 <hr>
 <div class="row mt-5 mb-4">
    <div class="col-md-6">
-      GRÁFICO DE RECEITAS
+      <p-chart type="bar" [data] = "revenueChartData" [options] = "chartOptions" ></p-chart>
    </div>
 
    <div class="col-md-6">
-      GRÁFICO DE DESPESAS
+         <p-chart type="bar" [data] = "expenseChartData" [options] = "chartOptions" ></p-chart>
    </div>
 </div>
 
